@@ -1,4 +1,4 @@
-name: penguins-have-long-noses
+name: dlcompare-test
 on: [push]
 jobs:
   run:
@@ -12,17 +12,16 @@ jobs:
         
       - name: Setup dependencies
         run: |
+          sudo apt-get install libcurl4-openssl-dev       
           R -e 'install.packages("renv")' 
           R -e 'renv::restore()'
           
-      - name: Analyze some penguin beaks
+      - name: Analyze results
         env: 
           repo_token: ${{ secrets.GITHUB_TOKEN }} 
         run: |
-          R -e 'renv::run("penguin_analysis.R")'
-          # Add picture
-          cml-publish my_penguin_plot.png --md > report.md 
-          # Add table
-          cat mymodel.html >> report.md
+          R -e 'renv::run("dlcomparetest.R")'
+          # Add plot
+          cml-publish result.png --md > report.md 
           # Send report
           cml-send-comment report.md
