@@ -12,11 +12,7 @@ jobs:
         
       - name: Setup dependencies
         run: |
-          su
-          wget https://github.com/curl/curl/releases/download/curl-7_55_0/curl-7.55.0.tar.gz
-          ./configure
-          make 
-          make install        
+          sudo apt-get install libcurl4-openssl-dev       
           R -e 'install.packages("renv")' 
           R -e 'renv::restore()'
           
